@@ -42,10 +42,10 @@ class PostController extends Controller
         return view('posts.create');
     }
 
-    public function store()
-    {
-        return 'insert in database';
-    }
+    // public function store()
+    // {
+    //     return 'insert in database';
+    // }
 
     public function show($postId)
     {
