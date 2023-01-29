@@ -21,6 +21,7 @@
             <select class="form-control">
                 <option>Ahmed</option>
                 <option>Mohamed</option>
+                <option>Sara</option>
             </select>
         </div>
         <button type="submit" class="btn btn-success">Submit</button>
