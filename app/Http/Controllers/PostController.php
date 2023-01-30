@@ -6,13 +6,14 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+
 class PostController extends Controller
 {
 
     public function index()
     {
         //using class Post to select all from table posts
-        $allPosts = Post::all();
+        $allPosts = Post::paginate(4);
     //    dd($allPosts);
         return view('posts.index',[
             'posts' =>$allPosts,
@@ -27,6 +28,14 @@ class PostController extends Controller
         ]);
     }
 
+    // / OR Using this
+        // $title =request()->title;
+        // $description = request()->description;
+
+        // $title = $request->title;
+        // $description = $request->description;
+        // $request->post_creator;
+
     public function store(Request $request )
     {
         //store input data in database
@@ -35,14 +44,6 @@ class PostController extends Controller
         $title = $data['title'];
         $description = $data['description'];
         $userId = $data['post_creator'];
-
-        // OR Using this
-        // $title =request()->title;
-        // $description = request()->description;
-
-        // $title = $request->title;
-        // $description = $request->description;
-        // $request->post_creator;
 
         Post::create([
             'title' => $title,
@@ -56,19 +57,17 @@ class PostController extends Controller
     {
         $post = Post::find($postId);
 
-        // dd($postId);
-
         return view('posts.show' , ['post' =>$post]);
     }
 
-
+     // ->first(): limit 1 , return object   vs   ->get(): no limits ,return collect objects
+        // $post =$postId;
 
     public function edit($postId)
     {
         // $post = Post::find($postId);
         $post = Post::where('id' , $postId)->first(); //Another Way equals the above one
-        // ->first(): limit 1 , return object   vs   ->get(): no limits ,return collect objects
-        // $post =$postId;
+
 
         return view('posts.edit' ,['post' =>$post]);
     }
@@ -88,10 +87,23 @@ class PostController extends Controller
 
     public function destroy($postId)
     {
-        $post = Post::find($postId);
-
-        $post->delete();
-        return redirect()->route('posts.index')->with('success','User Deleted');
+        Post::find($postId)->delete();
+        return back();
     }
+
+     public function restore()
+     {
+        $allPosts = Post::onlyTrashed()->orderBy('deleted_at' , 'desc')->get();
+         return view('posts.restore', ['posts' => $allPosts,]);
+     }
+
+     public function reback($postId)
+     {
+        Post::whereId($postId)->restore();
+        return back();
+     }
+
+   
+
 }
 
