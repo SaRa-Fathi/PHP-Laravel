@@ -2,99 +2,96 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    private static $allPosts = [
-        [
-            'id' => 1,
-            'title' => 'laravel',
-            'description' => 'hello this is laravel post',
-            'posted_by' => 'Ahmed',
-            'created_at' => '2022-01-28 10:05:00',
-            'email' => 'ahmed@gmail.com',
-        ],
-        [
-            'id' => 2,
-            'title' => 'php',
-            'description' => 'hello this is php post',
-            'posted_by' => 'Mohamed',
-            'created_at' => '2022-01-30 10:05:00',
-            'email' => 'mohamed@gmail.com',
-        ],
-        [
-            'id' => 3,
-            'title' => 'JavaScript',
-            'description' => 'hello this is JavaScript post',
-            'posted_by' => 'SaRa',
-            'created_at' => '2023-01-28 20:20:00',
-            'email' => 'sara@gmail.com',
-        ],
-    ];
-    private static $allposts = [];
-    public function __construct(){
-        self::$allPosts =[
-            [
-                'id' => 1,
-                'title' => 'laravel',
-                'description' => 'hello this is laravel post',
-                'posted_by' => 'Ahmed',
-                'created_at' => '2022-01-28 10:05:00',
-                'email' => 'ahmed@gmail.com',
-            ],
-            [
-                'id' => 2,
-                'title' => 'php',
-                'description' => 'hello this is php post',
-                'posted_by' => 'Mohamed',
-                'created_at' => '2022-01-30 10:05:00',
-                'email' => 'mohamed@gmail.com',
-            ],
-            [
-                'id' => 3,
-                'title' => 'JavaScript',
-                'description' => 'hello this is JavaScript post',
-                'posted_by' => 'SaRa',
-                'created_at' => '2023-01-28 20:20:00',
-                'email' => 'sara@gmail.com',
-            ],
-        ];
-    }
+
     public function index()
     {
-
-//        dd($allPosts);
+        //using class Post to select all from table posts
+        $allPosts = Post::all();
+    //    dd($allPosts);
         return view('posts.index',[
-            'posts' => self::$allPosts,
+            'posts' =>$allPosts,
         ]);
     }
 
     public function create()
     {
-        return view('posts.create');
+        $users = User::get();
+        return view('posts.create' , [
+            'users' =>$users,
+        ]);
     }
 
-    public function store()
+    public function store(Request $request )
     {
-        return 'insert in database';
+        //store input data in database
+
+        $data = request()->all();
+        $title = $data['title'];
+        $description = $data['description'];
+        $userId = $data['post_creator'];
+
+        // OR Using this
+        // $title =request()->title;
+        // $description = request()->description;
+
+        // $title = $request->title;
+        // $description = $request->description;
+        // $request->post_creator;
+
+        Post::create([
+            'title' => $title,
+            'description' => $description,
+            'user_id' => $userId,
+        ]);
+        return to_route("posts.index");
     }
 
     public function show($postId)
     {
+        $post = Post::find($postId);
+
         // dd($postId);
 
-        return view('posts.show' , ['posts' =>self::$allPosts],['postId'=>$postId]);
+        return view('posts.show' , ['post' =>$post]);
     }
+
+
+
     public function edit($postId)
     {
-
+        // $post = Post::find($postId);
+        $post = Post::where('id' , $postId)->first(); //Another Way equals the above one
+        // ->first(): limit 1 , return object   vs   ->get(): no limits ,return collect objects
         // $post =$postId;
 
-        return view('posts.edit' ,['posts' => self::$allPosts],['postId'=>$postId]);
+        return view('posts.edit' ,['post' =>$post]);
     }
-    public function update()
+
+    public function update($postId ,Request $request)
     {
-        return 'successfully updated in database';
+        $post = Post::find($postId);
+        $post->update([
+            'title' =>$request->title,
+            'description' =>$request->description,
+            'user_id' => $request->post_creator,
+            // 'updated_at' =>$request->updated_at,
+        ]);
+        // dd($post);
+        return redirect()->route('posts.index');
+    }
+
+    public function destroy($postId)
+    {
+        $post = Post::find($postId);
+
+        $post->delete();
+        return redirect()->route('posts.index')->with('success','User Deleted');
     }
 }
+

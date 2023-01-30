@@ -3,6 +3,18 @@
 @section('title') index @endsection
 
 @section('content')
+<div class="card-header">
+    @if(session()->get('success'))
+        <div class="alert alert-success">
+            {{ session()->get('success') }}
+        </div>
+    @endif
+    @if(session()->get('danger'))
+        <div class="alert alert-danger">
+            {{ session()->get('danger') }}
+        </div>
+    @endif
+</div>
     <div class="text-center">
         <a href="{{route('posts.create')}}" class="mt-4 btn btn-success">Create Post</a>
     </div>
@@ -20,15 +32,36 @@
 
         @foreach($posts as $post)
             <tr>
-                <td>{{$post['id']}}</td>
+                {{-- <td>{{$post['id']}}</td>
                 <td>{{$post['title']}}</td>
                 <td>{{$post['posted_by']}}</td>
-                <td>{{$post['created_at']}}</td>
+                <td>{{$post['created_at']}}</td> --}}
+
+                {{-- Another Way --}}
+                <td>{{$post->id}}</td>
+                <td>{{$post->title}}</td>
+                <td>{{$post->user->name ?? 'Not Found'}}</td>
+                <td>{{$post->created_at->format('20y-m-d')}}</td>
+
                 <td>
 {{--                    href="/posts/{{$post['id']}}"--}}
-                    <a href="{{route('posts.show', $post['id'])}}" class="btn btn-info">View</a>
-                    <a href="{{route('posts.edit', $post['id']), 'edit'}}" class="btn btn-primary">Edit</a>
-                    <a href="#" class="btn btn-danger">Delete</a>
+                    <a href="{{route('posts.show', $post->id)}}" class="btn btn-info">View</a>
+                    <a href="{{route('posts.edit', $post->id), 'edit'}}" class="btn btn-primary">Edit</a>
+
+                    <form id="delete-form" style="display: inline" method="POST" action="{{route('posts.destroy', ['post'=>$post->id]), 'edit'}}">
+                        @csrf
+                        @method('DELETE')
+                        <input name="_method" type="hidden" value="DELETE">
+                        <button class="btn btn-danger show_confirm" type="submit" onclick="return confirm('u re ganna to delete this record.. Are you sure?! ')" >Delete</button>
+
+
+                        {{-- <button type="button" class="btn btn-danger " data-dismiss="modal">No</button>
+
+                        <span class="text-right">
+                            <button type="button" class="btn btn-primary btndelete">Yes</button>
+                        </span> --}}
+                    </form>
+
                 </td>
             </tr>
         @endforeach
@@ -36,5 +69,32 @@
 
         </tbody>
     </table>
+    @section('script')
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+    <script>
+        $('.show_confirm').click(function(event) {
+            var form =  $(this).closest("form");
+            var name = $(this).data("name");
+            event.preventDefault();
+            swal({
+                title: `Are you sure you want to delete this record?`,
+                text: "If you delete this, it will be gone forever.",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                form.submit();
+                }
+            });
+      });
+
+    </script> --}}
+
+
+    @endsection
+
 
 @endsection
+
