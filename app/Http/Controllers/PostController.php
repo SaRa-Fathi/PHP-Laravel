@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\CommentController;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use App\Http\Requests\PostRequest; //for error shows
 
 class PostController extends Controller
 {
@@ -36,9 +36,13 @@ class PostController extends Controller
         // $description = $request->description;
         // $request->post_creator;
 
-    public function store(Request $request )
+    public function store(PostRequest $request )
     {
         //store input data in database
+        $request->validate([
+            'title'=>'unique:posts',
+
+        ]);
 
         $data = request()->all();
         $title = $data['title'];
@@ -56,14 +60,15 @@ class PostController extends Controller
     public function show($postId)
     {
         $post = Post::find($postId);
+        $users = User::all();
 
-        return view('posts.show' , ['post' =>$post]);
+        return view('posts.show' , ['post' =>$post , 'users' =>$users]);
     }
 
      // ->first(): limit 1 , return object   vs   ->get(): no limits ,return collect objects
         // $post =$postId;
 
-    public function edit($postId)
+    public function edit($postId )
     {
         // $post = Post::find($postId);
         $post = Post::where('id' , $postId)->first(); //Another Way equals the above one
@@ -72,7 +77,7 @@ class PostController extends Controller
         return view('posts.edit' ,['post' =>$post]);
     }
 
-    public function update($postId ,Request $request)
+    public function update($postId ,PostRequest $request)
     {
         $post = Post::find($postId);
         $post->update([
@@ -91,19 +96,19 @@ class PostController extends Controller
         return back();
     }
 
-     public function restore()
-     {
-        $allPosts = Post::onlyTrashed()->orderBy('deleted_at' , 'desc')->get();
-         return view('posts.restore', ['posts' => $allPosts,]);
-     }
+    public function restore()
+    {
+    $allPosts = Post::onlyTrashed()->orderBy('deleted_at' , 'desc')->get();
+        return view('posts.restore', ['posts' => $allPosts,]);
+    }
 
-     public function reback($postId)
-     {
-        Post::whereId($postId)->restore();
-        return back();
-     }
+    public function reback($postId)
+    {
+    Post::whereId($postId)->restore();
+    return back();
+    }
 
-   
+
 
 }
 
