@@ -16,9 +16,11 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::get('/', [PostController::class, 'index'])->name('posts.index');
+Route::get('/home', [PostController::class, 'index'])->name('posts.index');
 // Route::get('/', [App\Http\Controllers\HomeController::class, 'login']);//->name('logout');
 
 Auth::routes();
@@ -55,21 +57,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 
-// Route::get('/comments', [CommentController::class, 'show'])->name('posts.show');
-
-// // Route::get('/posts/{post}', [CommentController::class, 'index'])->name('comments.index');
-// Route::post('/posts/{post}/comments', [CommentController::class, 'store']); //->name('comments.store');
-
-// // get specific comment for specific post
-// Route::get('/comments/{comment}', [CommentController::class, 'show']); //->name('comments.show');
-
-// Route::get('/comments/create', [CommentController::class, 'create'])->name('posts.show');
-
-// Route::post('/comments', [CommentController::class, 'store']);
-
-// Route::get('/comments/{comment}/edit', [CommentController::class, 'edit']); //->name('comments.edit');
-// Route::put('/comments/{comment}', [CommentController::class, 'update']); //->name('comments.update');
-
-// // delete specific comment
-// Route::delete('/comments/{comment}', [CommentController::class, 'destroy']); //->name('comments.destroy');
 

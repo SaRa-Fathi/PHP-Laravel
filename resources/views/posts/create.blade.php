@@ -13,7 +13,7 @@
         </ul>
     </div>
 @endif
-<form method="POST" action="/posts">
+<form method="POST" action="/posts" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
             <label class="form-label">Title</label>
@@ -24,6 +24,10 @@
             <textarea
                 class="form-control" name="description"
             ></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Image</label>
+            <input type="file" class="form-control" name="image"  >
         </div>
         <div class="mb-3">
             <label class="form-check-label">Post Creator</label>

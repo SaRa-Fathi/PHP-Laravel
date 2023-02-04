@@ -3,76 +3,60 @@
 @section('title') index @endsection
 
 @section('content')
-{{-- <div class="card-header">
-    @if(session()->get('success'))
-        <div class="alert alert-success">
-            {{ session()->get('success') }}
-        </div>
-    @endif
-    @if(session()->get('danger'))
-        <div class="alert alert-danger">
-            {{ session()->get('danger') }}
-        </div>
-    @endif
-</div> --}}
-    <div class="text-center">
-        <a href="{{route('posts.create')}}" class="mt-4 btn btn-success">Create Post</a>
-        <a href="{{ route('posts.restore') }}" class="mt-4 btn btn-success">Go To Deleted Posts</a>
+
+<div class="row" >
+    <div class="col text-start" >
+        <a href="{{ route('posts.restore') }}" class=" btn btn-light">Deleted Posts</a>
     </div>
-    <table class="table mt-4">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Title</th>
-            <th scope="col">Posted By</th>
-            <th scope="col">Created At</th>
-            <th scope="col">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
+    <div class="col text-end" >
+        <a href="{{route('posts.create')}}" class="btn btn-primary">New Post</a>
+    </div>
 
+</div><br>
+
+    <div class="row row-cols-1 row-cols-md-3" >
         @foreach($posts as $post)
-            <tr>
-                {{-- <td>{{$post['id']}}</td>
-                <td>{{$post['title']}}</td>
-                <td>{{$post['posted_by']}}</td>
-                <td>{{$post['created_at']}}</td> --}}
+        <div class="col mb-4" >
+        <div class="card" style="border: 1px solid blue">
+            <div class="card-header">
+                <span>#{{$post->id}}</span>
+                <p style="text-align: center"><i class="bi bi-pen"></i> {{$post->user->name ?? 'Not Found'}} posted it in  {{$post->created_at->format('20y-m-d')}}</p>
+            </div>
+            <img src="{{Storage::disk('local')->url($post->image) }}" class="card-img" style="height: 230px" alt="...">
 
-                {{-- Another Way --}}
-                <td>{{$post->id}}</td>
-                <td>{{$post->title}}</td>
-                <td>{{$post->user->name ?? 'Not Found'}}</td>
-                <td>{{$post->created_at->format('20y-m-d')}}</td>
+            <div class="card-body">
+            <h5 class="card-title">{{$post->title}}</h5>
+            <h5 class="card-title text-muted">{{$post->slug}}</h5>
+            </div>
+            <div class="card-footer text-center">
+                <span class="fa-solid fa-trash"></span>
+                <a  href="{{route('posts.show', $post->id)}}" class=" bi bi-eye" title='View this Post'></a>
+                <a href="{{route('posts.edit', $post->id), 'edit'}}" class="bi bi-pen p-5" style="color: green"title='Edit this Post' ></a>
 
-                <td>
-{{--                    href="/posts/{{$post['id']}}"--}}
-                    <a href="{{route('posts.show', $post->id)}}" class="btn btn-info">View</a>
-                    <a href="{{route('posts.edit', $post->id), 'edit'}}" class="btn btn-primary">Edit</a>
+                        <form id="delete-form" style="display: inline" method="POST" action="{{route('posts.destroy',$post->id)}}">
+                            @csrf
+                            @method('DELETE')
+                            @if ($post->trashed())
+                                                @method('PATCH')
+                                            @else
+                                                @method('DELETE')
+                                            @endif
+                            <input name="_method" type="hidden" value="DELETE">
+                            <button type="submit" class="bi bi-trash3-fill show_confirm" style="color: red ;border:none;" data-toggle="tooltip" title='Delete this Post'></button>
 
-                    <form id="delete-form" style="display: inline" method="POST" action="{{route('posts.destroy',$post->id)}}">
-                        @csrf
-                        @method('DELETE')
-                        @if ($post->trashed())
-                                            @method('PATCH')
-                                        @else
-                                            @method('DELETE')
-                                        @endif
-                        <input name="_method" type="hidden" value="DELETE">
-                        <button type="submit" class="btn btn-danger btn-flat show_confirm" data-toggle="tooltip" title='Delete'>Delete</button>
+                        </form>
+            </div>
+        </div>
 
-                    </form>
-
-                </td>
-            </tr>
+        </div>
         @endforeach
-        </tbody>
-    </table>
-     <div style="text-align: center">
+    </div>
+
+
+    <div style="text-align: center">
         {{ $posts->links() }}
     </div>
     @endsection
-
-
 
     @section('scriptHead') <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>  @endsection
     @section('script')
@@ -84,7 +68,7 @@
             event.preventDefault();
             swal({
                 title: `Are you sure you want to delete this record?`,
-                text: "If you delete this, it will be gone forever.",
+                text: "If you delete this, You can restore it again at ant time .",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -100,5 +84,16 @@
     @endsection
 
 
-
+{{-- <div class="card-header">
+    @if(session()->get('success'))
+        <div class="alert alert-success">
+            {{ session()->get('success') }}
+        </div>
+    @endif
+    @if(session()->get('danger'))
+        <div class="alert alert-danger">
+            {{ session()->get('danger') }}
+        </div>
+    @endif
+</div> --}}
 

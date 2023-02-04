@@ -35,7 +35,6 @@
                     @endforeach
                 </tbody>
             </table>
-            <a href="{{ route('posts.index') }}" class="mt-4 btn btn-success">Go Back To Posts</a>
         </div>
     </div>
 </div>
