@@ -67,8 +67,8 @@
 
                         <div class="form-group row mt-4">
                             <div class="col-md-6 offset-md-3">
-                                <a href="{{route('auth.github.redirect') }}" class="btn btn-sm btn-block btn-danger">Login With Google</a>
-                                <a href= "{{route('auth.google.redirect') }}" class="btn btn-sm btn-block btn-dark">Login With Github</a>
+                                <a href="{{route('auth.redirect','google') }}" class="btn btn-sm btn-block btn-danger">Login With Google</a>
+                                <a href= "{{route('auth.redirect','github') }}" class="btn btn-sm btn-block btn-dark">Login With Github</a>
                             </div>
                         </div>
                     </form>

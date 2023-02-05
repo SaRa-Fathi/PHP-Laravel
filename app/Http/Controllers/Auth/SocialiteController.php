@@ -7,22 +7,39 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
-
+use Illuminate\Support\Str;
 class SocialiteController extends Controller
 {
 
-    public function redirect()
+    public function redirect($provider)
     {
-        return Socialite::driver('github')->redirect();
+        try
+        {
+            if(Str::lower($provider)=='google' || Str::lower($provider)=='github')
+            {
+                return Socialite::driver($provider)->redirect();
+            }
+
+        }
+        catch(\Exception $e)
+        {
+            return redirect()->route('login');
+        }
+        return redirect()->route('posts.index');
         // return Socialite::driver($provider)->redirect();
     }
 
 
-    public function callback()
+    public function callback($provider)
     {
         try
         {
-            $user = Socialite::driver('github')->user();
+            if(Str::lower($provider)=='google' || Str::lower($provider)=='github')
+            {
+                $user = Socialite::driver($provider)->user();
+                // return Socialite::driver($provider)->redirect();
+            }
+
 
         }
         catch(\Exception $e)

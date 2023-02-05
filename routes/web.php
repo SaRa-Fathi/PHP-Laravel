@@ -25,17 +25,21 @@ Route::get('/', [PostController::class, 'index'])->name('posts.index');
 Route::get('/home', [PostController::class, 'index'])->name('posts.index');
 // Route::get('/', [App\Http\Controllers\HomeController::class, 'login']);//->name('logout');
 
+Route::get('/auth/redirect/{provider}',[SocialiteController::class , 'redirect'])->name('auth.redirect');
+
+Route::get('/auth/callback/{provider}',[SocialiteController::class , 'callback'])->name('auth.callback');
+
 // Route::get('/auth/github/redirect',[SocialiteController::class , 'redirect']);
 
 // Route::get('/auth/github/callback',[SocialiteController::class , 'callback']);
 
-Route::get('/auth/redirect/github',[SocialiteController::class , 'redirect'])->name('auth.github.redirect');
+// Route::get('/auth/redirect/github',[SocialiteController::class , 'redirect'])->name('auth.github.redirect');
 
-Route::get('/auth/callback/github',[SocialiteController::class , 'callback'])->name('auth.github.callback');
+// Route::get('/auth/callback/github',[SocialiteController::class , 'callback'])->name('auth.github.callback');
 
-Route::get('/auth/redirect/google',[SocialiteController::class , 'redirect'])->name('auth.google.redirect');
+// Route::get('/auth/redirect/google',[SocialiteController::class , 'redirect'])->name('auth.google.redirect');
 
-Route::get('/auth/callback/google',[SocialiteController::class , 'callback'])->name('auth.google.callback');
+// Route::get('/auth/callback/google',[SocialiteController::class , 'callback'])->name('auth.google.callback');
 
 
 Auth::routes();
