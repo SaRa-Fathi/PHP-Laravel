@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\SocialiteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
@@ -23,6 +24,19 @@ use Laravel\Socialite\Facades\Socialite;
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
 Route::get('/home', [PostController::class, 'index'])->name('posts.index');
 // Route::get('/', [App\Http\Controllers\HomeController::class, 'login']);//->name('logout');
+
+// Route::get('/auth/github/redirect',[SocialiteController::class , 'redirect']);
+
+// Route::get('/auth/github/callback',[SocialiteController::class , 'callback']);
+
+Route::get('/auth/redirect/github',[SocialiteController::class , 'redirect'])->name('auth.github.redirect');
+
+Route::get('/auth/callback/github',[SocialiteController::class , 'callback'])->name('auth.github.callback');
+
+Route::get('/auth/redirect/google',[SocialiteController::class , 'redirect'])->name('auth.google.redirect');
+
+Route::get('/auth/callback/google',[SocialiteController::class , 'callback'])->name('auth.google.callback');
+
 
 Auth::routes();
 
@@ -57,24 +71,26 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 
-Route::get('/auth/redirect', function () {
-    return Socialite::driver('github')->redirect();
-});
 
-Route::get('/auth/callback', function () {
-    $user = Socialite::driver('github')->user();
-    // dd($user);
-    $user = User::updateOrCreate([
-        'github_id' => $githubUser->id,
-    ], [
-        'name' => $githubUser->name,
-        'email' => $githubUser->email,
-        'github_token' => $githubUser->token,
-        'github_refresh_token' => $githubUser->refreshToken,
-    ]);
 
-    // $user->token
-});
+// Route::get('/auth/redirect/{provider}',[SocialiteController::class , 'redirect']);
+
+// Route::get('/auth/callback/{provider}',[SocialiteController::class , 'callback']);
+
+// function () {
+//     $user = Socialite::driver('github')->user();
+//     // dd($user);
+//     $user = User::updateOrCreate([
+//         'github_id' => $githubUser->id,
+//     ], [
+//         'name' => $githubUser->name,
+//         'email' => $githubUser->email,
+//         'github_token' => $githubUser->token,
+//         'github_refresh_token' => $githubUser->refreshToken,
+//     ]);
+
+//     // $user->token
+// };
 
 
 
