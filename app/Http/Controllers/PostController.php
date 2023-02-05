@@ -5,15 +5,17 @@ use App\Http\Controllers\CommentController;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Requests\PostRequest; //for error shows
+use App\Http\Requests\PostRequest; //for error shows "validation"
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Collection;
 class PostController extends Controller
 {
 
     public function index()
     {
-        //using class Post to select all from table posts
-        $allPosts = Post::paginate(3);
+        // ------Eager Loading------
+        $allPosts = Post::with(['user'])->paginate(3);
+        // $allPosts = Post::paginate(3);
     //    dd($allPosts);
         return view('posts.index',[
             'posts' =>$allPosts,

@@ -16,7 +16,7 @@
 
             <div class="card-body">
                 <h5 class="card-title">Description</h5>
-                <p class="card-title text-muted">{{$post->description}}</p>
+                <p class="card-title ">{{$post->description}}</p>
             </div>
             <div class="card-footer text-center">
                 <p class="card-text"><small class="text-muted">Created @ {{ $post['created_at'] }}</small></p>
@@ -25,9 +25,9 @@
         </div>
     </div>
 
-    <div style="border: 1px solid blue">
+    <div class="card col mb-4" style="border: 1px solid blue">
         {{-- =====================To display all comments of a specific post========================= --}}
-        <div class="card-header text-center">
+        <div class="card-header text-center" >
             <h5 >{{ $post->title }} Post Comments</h5>
         </div>
         <div class="card-body">
@@ -57,7 +57,27 @@
 </div>
 
 {{-- =====================Post Creator Info========================= --}}
+<div class="card mb-3" style="max-width: 650px;border: 1px solid blue;">
+    <div class="row no-gutters">
+        <div class="col-md-5">
+        <img src="https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" class="card-img" alt="...">
+        </div>
+        <div class="col-md-7">
+            <h5 class="card-header text-center">Post Creator Info</h5>
+            <div class="card-body">
+                <span class="card-title h5"> Name :-</span>
+                <span class="card-text "> {{ $post->user->name }}</span><br><hr>
 
+                <span class="card-title h5">Email :-</span>
+                <span class="card-text">{{ $post->user->email}}</span><br><hr>
+
+                <span class="card-title h5">Created At :-</span>
+                <span class="card-text">{{ $post['created_at'] }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- ================= --}}
 <div class="card mt-5" style="border: 1px solid blue">
     <h5 class="card-header text-center">Post Creator Info</h5>
     <div class="card-body">
