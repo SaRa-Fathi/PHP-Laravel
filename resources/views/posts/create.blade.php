@@ -38,6 +38,6 @@
                 @endforeach
             </select>
         </div>
-        <button type="submit" class="btn btn-success">Submit</button>
+        <button type="submit" class="btn colorButton">Submit</button>
     </form>
 @endsection

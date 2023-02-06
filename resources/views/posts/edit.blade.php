@@ -25,7 +25,7 @@
         <div class="mb-3">
             <label  class="form-label" >Description</label>
             <textarea
-                class="form-control" name="description"
+                class="form-control" name="description" rows="5"
             >{{$post['description']}}</textarea>
         </div>
         <div class="mb-3">
@@ -39,6 +39,6 @@
                     <option value="{{$post->user->id}}"> {{$post->user->name}} </option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn colorButton">Update</button>
     </form>
 @endsection

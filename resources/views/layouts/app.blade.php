@@ -21,10 +21,22 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
     @yield('scriptHead')
+    <style>
+        .navbar , .colorButton{
+            background-color: #00337C;
+            color: aliceblue;
+        }
+        .navbar-brand , .nav-link{
+            color: aliceblue;
+        }
+        .colorBorder{
+            border: 1px solid #00337C;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md   shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{-- {{ config('app.name', 'Blog') }} --}}

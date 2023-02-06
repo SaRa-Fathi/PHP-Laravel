@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card colorBorder">
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
@@ -53,7 +53,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn colorButton">
                                     {{ __('Login') }}
                                 </button>
 
@@ -67,8 +67,8 @@
 
                         <div class="form-group row mt-4">
                             <div class="col-md-6 offset-md-3">
-                                <a href="{{route('auth.redirect','google') }}" class="btn btn-sm btn-block btn-danger">Login With Google</a>
-                                <a href= "{{route('auth.redirect','github') }}" class="btn btn-sm btn-block btn-dark">Login With Github</a>
+                                <a href="{{route('auth.redirect','google') }}" class="btn btn-sm  colorBorder " style="background-color: #4C6793;color:white">Login With Google</a>
+                                <a href= "{{route('auth.redirect','github') }}" class="btn btn-sm  btn-dark" style="background-color: #434242;color:white" >Login With Github</a>
                             </div>
                         </div>
                     </form>

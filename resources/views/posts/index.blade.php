@@ -6,10 +6,10 @@
 
 <div class="row" >
     <div class="col text-start" >
-        <a href="{{ route('posts.restore') }}" class=" btn btn-light">Deleted Posts</a>
+        <a href="{{ route('posts.restore') }}" class=" btn btn-light colorBorder delPosts" style="text-align: center ;">Deleted Posts</a>
     </div>
     <div class="col text-end" >
-        <a href="{{route('posts.create')}}" class="btn btn-primary">New Post</a>
+        <a href="{{route('posts.create')}}" class="btn colorButton">New Post</a>
     </div>
 
 </div><br>
@@ -17,7 +17,7 @@
     <div class="row row-cols-1 row-cols-md-3" >
         @foreach($posts as $post)
         <div class="col mb-4" >
-        <div class="card" style="border: 1px solid blue">
+        <div class="card colorBorder">
             <div class="card-header">
                 <span>#{{$post->id}}</span>
                 <p style="text-align: center"><i class="bi bi-pen"></i> {{$post->user->name ?? 'Not Found'}} posted it in  {{$post->created_at->format('20y-m-d')}}</p>
@@ -53,7 +53,7 @@
     </div>
 
 
-    <div style="text-align: center">
+    <div>
         {{ $posts->links() }}
     </div>
     @endsection
